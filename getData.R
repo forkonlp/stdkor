@@ -1,3 +1,4 @@
+install.packages(c("rvest","data.table"))
 library(rvest)
 library(data.table)
 
@@ -25,7 +26,7 @@ for (i in num){
   
   tem<-data.table(word=word,definition=defi)
   dat<-rbind(dat,tem)
-  if(i%%300==0){
+  if(i%%1000==0){
     fwrite(
       dat
       , paste0("./data/w",i,".csv")
