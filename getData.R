@@ -1,14 +1,30 @@
 install.packages(c("rvest"))
 library(rvest)
 
-num<-1:519120
+num<-11749:519120
 dat<-c()
 
 for (i in num){
   tar<-paste0("http://stdweb2.korean.go.kr/search/View.jsp?idx=",i,"&go=1")
   str<-Sys.time()
-  root <- tar %>%   
-    read_html 
+  tryr<-0
+  root<-try(tar %>% read_html, silent = TRUE)
+  while(tryr<=5&&class(tem)=="try-error"){
+    root<-try(tar %>% read_html, silent = TRUE)
+    tryr<-tryr+1
+    print(paste0("try again: ",tryr," times"))
+  }
+  if(tryr==5){
+    print(paste0("save error: ",tar))
+    dir.create("./out",showWarnings = F)
+    write.table(
+      tar
+      , paste0("./out/o",i,".csv")
+      , row.names = F
+      , col.names = F
+      , fileEncoding = "UTF-8"
+    )
+  }
   
   (
     word <-
