@@ -1,13 +1,12 @@
-install.packages(c("rvest","data.table"))
+install.packages(c("rvest"))
 library(rvest)
-library(data.table)
 
 num<-1:519120
 dat<-c()
-str<-Sys.time()
+
 for (i in num){
   tar<-paste0("http://stdweb2.korean.go.kr/search/View.jsp?idx=",i,"&go=1")
-  
+  str<-Sys.time()
   root <- tar %>%   
     read_html 
   
@@ -24,17 +23,14 @@ for (i in num){
       html_text
   )
   
-  tem<-data.table(word=word,definition=defi)
-  dat<-rbind(dat,tem)
-  if(i%%1000==0){
-    fwrite(
-      dat
-      , paste0("./data/w",i,".csv")
-      , row.names = F
-    )
-    dat<-c()
-    mid<-Sys.time()
-    cat("save", mid-str,"\n")
-  }
-  cat(i, " / 519120\n")
+  tem<-data.frame(word=word,definition=defi)
+  dir.create("./data",showWarnings = F)
+  write.table(
+    tem
+    , paste0("./data/w",i,".csv")
+    , row.names = F
+    , fileEncoding = "UTF-8"
+  )
+  mid<-Sys.time()
+  cat(i, " / 519120 ",mid-str,"\n")
 }
