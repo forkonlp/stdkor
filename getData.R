@@ -9,7 +9,7 @@ for (i in num){
   str<-Sys.time()
   tryr<-0
   root<-try(tar %>% read_html, silent = TRUE)
-  while(tryr<=5&&class(tem)=="try-error"){
+  while(tryr<=5&&class(root)=="try-error"){
     root<-try(tar %>% read_html, silent = TRUE)
     tryr<-tryr+1
     print(paste0("try again: ",tryr," times"))
