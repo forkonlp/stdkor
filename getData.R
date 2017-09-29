@@ -1,7 +1,7 @@
 install.packages(c("rvest"))
 library(rvest)
 
-num<-11749:519120
+num<-1:519120
 dat<-c()
 
 for (i in num){
